@@ -13,6 +13,18 @@ set(QT_VERSION 5)
 
 find_package(Qt5Widgets REQUIRED)
 
-add_executable(qt_dev_tests)
+include_directories(domain)
+include_directories(repository)
+include_directories(observer)
+
+add_executable(qt_dev_tests
+        domain/User.cpp
+        domain/User.h
+        domain/Issue.cpp
+        domain/Issue.h
+        repository/Repository.h
+        repository/UserRepository.cpp
+        repository/UserRepository.h
+        observer/Observer.h repository/IssueRepository.cpp repository/IssueRepository.h)
 
 target_link_libraries(qt_dev_tests Qt5::Widgets)
