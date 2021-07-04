@@ -16,6 +16,7 @@ find_package(Qt5Widgets REQUIRED)
 include_directories(domain)
 include_directories(repository)
 include_directories(observer)
+include_directories(gui)
 
 add_executable(qt_dev_tests
         domain/User.cpp
@@ -25,6 +26,13 @@ add_executable(qt_dev_tests
         repository/Repository.h
         repository/UserRepository.cpp
         repository/UserRepository.h
-        observer/Observer.h repository/IssueRepository.cpp repository/IssueRepository.h)
+        observer/Observer.h
+        repository/IssueRepository.cpp
+        repository/IssueRepository.h
+        gui/AbstractModel.cpp
+        gui/AbstractModel.h
+        gui/GUI.cpp
+        gui/GUI.h
+        main.cpp)
 
 target_link_libraries(qt_dev_tests Qt5::Widgets)

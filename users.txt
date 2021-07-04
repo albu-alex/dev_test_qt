@@ -1,0 +1,4 @@
+Alex,programmer
+Mihai,tester
+Elina,programmer
+Bianca,tester

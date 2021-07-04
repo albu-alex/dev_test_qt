@@ -27,7 +27,7 @@ bool IssueRepository::remove(const Issue &issue) {
 }
 
 void IssueRepository::saveToFile() {
-    std::ofstream output("..\\issues.txt");
+    std::ofstream output(R"(D:\Cursuri\clion_projects\dev_test_qt\issues.txt)");
     if(!output.is_open())
         throw std::runtime_error("File could not open correctly!");
     for(const auto &issue : this->issues)
@@ -39,7 +39,7 @@ void IssueRepository::saveToFile() {
 }
 
 void IssueRepository::loadFromFile() {
-    std::ifstream input("..\\issues.txt");
+    std::ifstream input(R"(D:\Cursuri\clion_projects\dev_test_qt\issues.txt)");
     if(!input.is_open())
         throw std::runtime_error("File could not open correctly!");
     Issue newIssue;

@@ -16,7 +16,7 @@ bool UserRepository::add(const User &newUser) {
 }
 
 void UserRepository::saveToFile() {
-    std::ofstream output("..\\users.txt");
+    std::ofstream output(R"(D:\Cursuri\clion_projects\dev_test_qt\users.txt)");
     if(!output.is_open())
         throw std::runtime_error("File could not open correctly!");
     for (const auto& user: this->users)
@@ -28,7 +28,7 @@ void UserRepository::saveToFile() {
 }
 
 void UserRepository::loadFromFile() {
-    std::ifstream input("..\\users.txt");
+    std::ifstream input(R"(D:\Cursuri\clion_projects\dev_test_qt\users.txt)");
     if(!input.is_open())
         throw std::runtime_error("File could not open correctly!");
     User newUser;
