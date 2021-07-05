@@ -25,6 +25,7 @@
 class GUI: public QWidget, public Observer {
     Q_OBJECT
 private:
+    std::string user_name, user_type;
     User& user;
     IssueRepository& issueRepository;
     QLineEdit* description;

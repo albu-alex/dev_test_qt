@@ -54,7 +54,9 @@ void GUI::initGUI() {
     newDescription->addRow("Description", this->description);
     main->addLayout(newDescription);
 
-    QWidget::setWindowTitle(QString::fromStdString(this->user.getName() + ',' + this->user.getType()));
+    this->user_name = this->user.getName();
+    this->user_type = this->user.getType();
+    QWidget::setWindowTitle(QString::fromStdString(this->user_name + ',' + this->user_type));
 }
 
 void GUI::connectSignalAndSlots() {
@@ -74,10 +76,10 @@ int GUI::getSelectedIndex() {
 }
 
 void GUI::addButton_handler() {
-//    if(this->user.getType() != "tester"){
-//        QMessageBox::critical(this, "Error", "Only testers can report new issues!");
-//        return;
-//    }
+    if(this->user_type != "tester"){
+        QMessageBox::critical(this, "Error", "Only testers can report new issues!");
+        return;
+    }
     std::string newDescription = this->description->text().toStdString();
     if(newDescription.empty()){
         QMessageBox::critical(this, "Error", "The description must not be empty!");
@@ -88,7 +90,7 @@ void GUI::addButton_handler() {
             QMessageBox::critical(this, "Error", "The new description must not match older descriptions!");
             return;
         }
-    Issue newIssue{newDescription, "open", this->user.getName(), NULL_NAME};
+    Issue newIssue{newDescription, "open", this->user_name, NULL_NAME};
     this->issueRepository.add(newIssue);
 }
 
@@ -117,11 +119,11 @@ void GUI::removeButton_handler() {
 }
 
 void GUI::resolveButton_handler() {
-//    if(this->user.getType() != "programmer"){
-//        QMessageBox::critical(this, "Error", "Only programmers can resolve open issues!");
-//        return;
-//    }
+    if(this->user_type != "programmer"){
+        QMessageBox::critical(this, "Error", "Only programmers can resolve open issues!");
+        return;
+    }
     int index = this->getSelectedIndex();
     Issue resolvedIssue = this->issueRepository.getIssues()[index];
-    this->issueRepository.resolve(resolvedIssue, this->user.getName());
+    this->issueRepository.resolve(resolvedIssue, this->user_name);
 }
