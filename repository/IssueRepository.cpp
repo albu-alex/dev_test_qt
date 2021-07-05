@@ -26,6 +26,27 @@ bool IssueRepository::remove(const Issue &issue) {
     return false;
 }
 
+bool IssueRepository::resolve(Issue &issue, const std::string& solver) {
+//    auto found = std::find(this->issues.begin(), this->issues.end(), issue);
+//    if(found != this->issues.end()){
+//        issue.setStatus("closed");
+//        issue.setSolver(solver);
+//        this->saveToFile();
+//        this->notify();
+//        return true;
+//    }
+//    return false;
+    for(auto & currentIssue : this->issues)
+        if(issue == currentIssue){
+            currentIssue.setStatus("closed");
+            currentIssue.setSolver(solver);
+            this->saveToFile();
+            this->notify();
+            return true;
+        }
+    return false;
+}
+
 void IssueRepository::saveToFile() {
     std::ofstream output(R"(D:\Cursuri\clion_projects\dev_test_qt\issues.txt)");
     if(!output.is_open())

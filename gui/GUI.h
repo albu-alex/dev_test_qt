@@ -31,7 +31,7 @@ private:
     AbstractModel* table;
     QTableView* tableView;
     QSortFilterProxyModel* filterProxyModel;
-    QPushButton* add, *remove;
+    QPushButton* add, *remove, *resolve;
 public:
     explicit GUI(User& _user, IssueRepository& _issueRepository, QWidget* parent = nullptr);
     ~GUI() override;
@@ -41,9 +41,11 @@ public:
     void notifyModel();
     int getSelectedIndex();
     void checkIfRemoveAvailable();
+    void checkIfResolveAvailable();
 public slots:
     void addButton_handler();
     void removeButton_handler();
+    void resolveButton_handler();
 };
 
 

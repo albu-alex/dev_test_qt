@@ -29,6 +29,7 @@ void GUI::initGUI() {
     this->description = new QLineEdit{};
     this->add = new QPushButton{"Add"};
     this->remove = new QPushButton{"Remove"};
+    this->resolve = new QPushButton{"Resolve"};
 
     this->table = new AbstractModel{this->issueRepository};
     this->tableView = new QTableView{};
@@ -45,6 +46,7 @@ void GUI::initGUI() {
     QGridLayout* buttons = new QGridLayout{};
     buttons->addWidget(this->add, 0, 0);
     buttons->addWidget(this->remove, 0, 2);
+    buttons->addWidget(this->resolve, 1, 1);
 
     main->addLayout(buttons);
 
@@ -58,7 +60,9 @@ void GUI::initGUI() {
 void GUI::connectSignalAndSlots() {
     QObject::connect(this->add, &QPushButton::clicked, this, &GUI::addButton_handler);
     QObject::connect(this->remove, &QPushButton::clicked, this, &GUI::removeButton_handler);
+    QObject::connect(this->resolve, &QPushButton::clicked, this, &GUI::resolveButton_handler);
     QObject::connect(this->tableView, &QTableView::clicked, this, &GUI::checkIfRemoveAvailable);
+    QObject::connect(this->tableView, &QTableView::clicked, this, &GUI::checkIfResolveAvailable);
 }
 
 int GUI::getSelectedIndex() {
@@ -70,6 +74,10 @@ int GUI::getSelectedIndex() {
 }
 
 void GUI::addButton_handler() {
+//    if(this->user.getType() != "tester"){
+//        QMessageBox::critical(this, "Error", "Only testers can report new issues!");
+//        return;
+//    }
     std::string newDescription = this->description->text().toStdString();
     if(newDescription.empty()){
         QMessageBox::critical(this, "Error", "The description must not be empty!");
@@ -93,8 +101,27 @@ void GUI::checkIfRemoveAvailable() {
         this->remove->setEnabled(true);
 }
 
+void GUI::checkIfResolveAvailable() {
+    int index = this->getSelectedIndex();
+    std::string status = this->filterProxyModel->index(index, 1).data().toString().toStdString();
+    if(status != "open")
+        this->resolve->setEnabled(false);
+    else
+        this->resolve->setEnabled(true);
+}
+
 void GUI::removeButton_handler() {
     int index = this->getSelectedIndex();
     Issue removedIssue = this->issueRepository.getIssues()[index];
     this->issueRepository.remove(removedIssue);
+}
+
+void GUI::resolveButton_handler() {
+//    if(this->user.getType() != "programmer"){
+//        QMessageBox::critical(this, "Error", "Only programmers can resolve open issues!");
+//        return;
+//    }
+    int index = this->getSelectedIndex();
+    Issue resolvedIssue = this->issueRepository.getIssues()[index];
+    this->issueRepository.resolve(resolvedIssue, this->user.getName());
 }

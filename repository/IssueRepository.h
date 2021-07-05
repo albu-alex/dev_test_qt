@@ -19,6 +19,7 @@ public:
     bool add(const Issue& newIssue) override;
     std::vector<Issue> getIssues() const;
     bool remove(const Issue& issue);
+    bool resolve(Issue& issue, const std::string& solver);
 };
 
 
