@@ -15,27 +15,18 @@ bool IssueRepository::add(const Issue &newIssue) {
     return false;
 }
 
-bool IssueRepository::remove(const Issue &issue) {
-    auto found = std::find(this->issues.begin(), this->issues.end(), issue);
-    if(found != this->issues.end() && issue.getStatus() == "closed"){
-        this->issues.erase(found);
-        this->saveToFile();
-        this->notify();
-        return true;
-    }
+bool IssueRepository::remove(Issue &issue) {
+    for(int i=0;i<this->issues.size();i++)
+        if(issue == this->issues[i]){
+            this->issues.erase(this->issues.begin()+i);
+            this->saveToFile();
+            this->notify();
+            return true;
+        }
     return false;
 }
 
 bool IssueRepository::resolve(Issue &issue, const std::string& solver) {
-//    auto found = std::find(this->issues.begin(), this->issues.end(), issue);
-//    if(found != this->issues.end()){
-//        issue.setStatus("closed");
-//        issue.setSolver(solver);
-//        this->saveToFile();
-//        this->notify();
-//        return true;
-//    }
-//    return false;
     for(auto & currentIssue : this->issues)
         if(issue == currentIssue){
             currentIssue.setStatus("closed");

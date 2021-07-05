@@ -114,7 +114,11 @@ void GUI::checkIfResolveAvailable() {
 
 void GUI::removeButton_handler() {
     int index = this->getSelectedIndex();
-    Issue removedIssue = this->issueRepository.getIssues()[index];
+    std::string name = this->filterProxyModel->index(index, 0).data().toString().toStdString();
+    std::string status = this->filterProxyModel->index(index, 1).data().toString().toStdString();
+    std::string reporter = this->filterProxyModel->index(index, 2).data().toString().toStdString();
+    std::string solver = this->filterProxyModel->index(index, 3).data().toString().toStdString();
+    Issue removedIssue{name, status, reporter, solver};
     this->issueRepository.remove(removedIssue);
 }
 
@@ -124,6 +128,10 @@ void GUI::resolveButton_handler() {
         return;
     }
     int index = this->getSelectedIndex();
-    Issue resolvedIssue = this->issueRepository.getIssues()[index];
+    std::string name = this->filterProxyModel->index(index, 0).data().toString().toStdString();
+    std::string status = this->filterProxyModel->index(index, 1).data().toString().toStdString();
+    std::string reporter = this->filterProxyModel->index(index, 2).data().toString().toStdString();
+    std::string solver = this->filterProxyModel->index(index, 3).data().toString().toStdString();
+    Issue resolvedIssue{name, status, reporter, solver};
     this->issueRepository.resolve(resolvedIssue, this->user_name);
 }
