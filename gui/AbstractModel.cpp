@@ -33,8 +33,11 @@ QVariant AbstractModel::data(const QModelIndex &index, int role) const {
             return QString::fromStdString(currentIssue.getStatus());
         if(column == 2)
             return QString::fromStdString(currentIssue.getReporter());
-        if(column == 3)
+        if(column == 3){
+            if(currentIssue.getSolver() == NULL_NAME)
+                return QString{" "};
             return QString::fromStdString(currentIssue.getSolver());
+        }
     }
     return QVariant();
 }

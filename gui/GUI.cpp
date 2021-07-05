@@ -58,11 +58,15 @@ void GUI::initGUI() {
 void GUI::connectSignalAndSlots() {
     QObject::connect(this->add, &QPushButton::clicked, this, &GUI::addButton_handler);
     QObject::connect(this->remove, &QPushButton::clicked, this, &GUI::removeButton_handler);
-    //check if remove available
+    QObject::connect(this->tableView, &QTableView::clicked, this, &GUI::checkIfRemoveAvailable);
 }
 
 int GUI::getSelectedIndex() {
-    return 0;
+    auto selectedIndexes = this->tableView->selectionModel()->selectedIndexes();
+    if(selectedIndexes.isEmpty())
+        return -1;
+    int selectedRow = selectedIndexes.at(0).row();
+    return selectedRow;
 }
 
 void GUI::addButton_handler() {
@@ -76,10 +80,21 @@ void GUI::addButton_handler() {
             QMessageBox::critical(this, "Error", "The new description must not match older descriptions!");
             return;
         }
-    Issue newIssue{newDescription, "open", this->user.getName(), " "};
+    Issue newIssue{newDescription, "open", this->user.getName(), NULL_NAME};
     this->issueRepository.add(newIssue);
 }
 
+void GUI::checkIfRemoveAvailable() {
+    int index = this->getSelectedIndex();
+    std::string status = this->filterProxyModel->index(index, 1).data().toString().toStdString();
+    if(status != "closed")
+        this->remove->setEnabled(false);
+    else
+        this->remove->setEnabled(true);
+}
+
 void GUI::removeButton_handler() {
-    ;
+    int index = this->getSelectedIndex();
+    Issue removedIssue = this->issueRepository.getIssues()[index];
+    this->issueRepository.remove(removedIssue);
 }

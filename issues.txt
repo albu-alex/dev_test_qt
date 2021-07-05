@@ -1,2 +1,4 @@
 File could not open correctly,open,Mihai,Alex
 Users do not receive emails,closed,Bianca,Elina
+Could not open .exe files,open,Bianca,AEIOU
+Please delete the newest commit,open,,AEIOU

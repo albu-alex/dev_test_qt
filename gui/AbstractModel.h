@@ -6,6 +6,7 @@
 #include "IssueRepository.h"
 #include <QAbstractTableModel>
 #include <QFont>
+#define NULL_NAME "AEIOU"
 #define QT_DEV_TESTS_ABSTRACTMODEL_H
 
 

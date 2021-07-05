@@ -40,6 +40,7 @@ public:
     void update() override;
     void notifyModel();
     int getSelectedIndex();
+    void checkIfRemoveAvailable();
 public slots:
     void addButton_handler();
     void removeButton_handler();
